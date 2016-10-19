@@ -35,7 +35,7 @@ def getFrequencyOrder(message):
 
     return ''.join(frequencyOrder)
 
-def englishFreqMatchScore(message):
+def matchScore(message):
     frequencyOrder = getFrequencyOrder(message)
     matchScore = 0
     for commonLetter in ETAOIN[:6]:
@@ -46,5 +46,3 @@ def englishFreqMatchScore(message):
         if uncommonLetter in frequencyOrder[-6:]:
             matchScore += 1
     return matchScore
-
-print(englishFreqMatchScore("ETAOIZcd "))
