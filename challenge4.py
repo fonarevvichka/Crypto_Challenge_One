@@ -1,5 +1,5 @@
 import binascii
-encryptedStrings = open("encryptedStrings.txt", "r")
+encryptedStrings = open("message.txt", "r")
 import English
 import xor
 

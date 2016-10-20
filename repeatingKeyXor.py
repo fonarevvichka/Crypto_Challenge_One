@@ -1,18 +1,20 @@
-import binascii
+import xor
 
-def repeatintKeyXor(s, key):
-    return s
+def repeatingKeyXor(s, key):
+    key = convertStrToHex(key)
+    s = convertStrToHex(s)
+    return xor.repeatingKey(s, key)
+def repeatingKeyXorFromFile(fileName, key):
+    textToEncrypt = open(fileName, "r")
+    encryptedMessage = ''
+    for line in textToEncrypt:
+        s = textToEncrypt.readline()
+        encryptedMessage += repeatingKeyXor(s, key) + "\n"
 
-def repeatKey(s, key):
-    repeatedKey = ''
-    j = 0
-    while j < int(len(s)/len(key)):
-        i = 0
-        print (len(key))
-        while i < int(len(key)-1):
-            repeatedKey += key[i] + key[i+1]
-            i += 2
-            # print(i)
-            # print (repeatedKey)
-        j += 1
-    return repeatedKey
+def convertStrToHex(s):
+    convertedString = ''
+    for i in range(0, len(s)):
+        convertedString += hex(ord(s[i]))[2:]
+    return convertedString
+
+print(repeatingKeyXorFromFile("message.txt", 'ICE'))
