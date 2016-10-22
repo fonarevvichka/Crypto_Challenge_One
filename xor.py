@@ -12,12 +12,9 @@ def char(s, key):
     # print (hexResult)
     return bytearray.fromhex(hexResult).decode('UTF-8')
 def repeatingKey(s, key):
-    # print(s)
-    # print(key)
     hexResult = ''
     for i in range(0, int((len(s)-2)/2)):
         sChar = s[2*i] + s[2*i+1]
-        keyChar = key[(2*i) % 3] + key[((2*i) + 1)% 3]
-        print (keyChar)
+        keyChar = key[2*(i % 3)] + key[(2*(i%3)) + 1]
         hexResult += hex(int(sChar, 16) ^ int(keyChar, 16))[2:]
     return hexResult

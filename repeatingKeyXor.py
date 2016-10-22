@@ -7,10 +7,11 @@ def repeatingKeyXor(s, key):
 def repeatingKeyXorFromFile(fileName, key):
     textToEncrypt = open(fileName, "r")
     encryptedMessage = ''
-    for line in textToEncrypt:
-        s = textToEncrypt.readline()
-        encryptedMessage += repeatingKeyXor(s, key)
-    return encryptedMessage
+    for i in range(0,2):
+        s = textToEncrypt.read()
+        # print(s)
+        # print(encryptedMessage)
+    return repeatingKeyXor(s, key)
 
 def convertStrToHex(s):
     convertedString = ''
@@ -18,5 +19,5 @@ def convertStrToHex(s):
         convertedString += hex(ord(s[i]))[2:]
     return convertedString
 
-# print(repeatingKeyXorFromFile("message.txt", 'ICE'))
-print(repeatingKeyXor("Burning 'em, if you ain't quick and nimble", "ICE"))
+print(repeatingKeyXorFromFile("message.txt", 'ICE'))
+# (repeatingKeyXorFromFile("message.txt", "ICE"))
