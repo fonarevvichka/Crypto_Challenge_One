@@ -3,7 +3,6 @@ import binascii
 
 def fixedXorCompare(s):
     return hex(int(s, 16) ^ int("686974207468652062756c6c277320657965", 16))[2:]
-
 def char(s, key):
     key = hex(ord(key))[2:]
     key = key * int(len(s)/2)
@@ -13,8 +12,10 @@ def char(s, key):
     return bytearray.fromhex(hexResult).decode('UTF-8')
 def repeatingKey(s, key):
     hexResult = ''
-    for i in range(0, int((len(s)-2)/2)):
+    for i in range(0, int((len(s))/2)):
         sChar = s[2*i] + s[2*i+1]
         keyChar = key[2*(i % 3)] + key[(2*(i%3)) + 1]
+        if(len(hex(int(sChar, 16) ^ int(keyChar, 16))[2:]) < 2):
+            hexResult += "0"
         hexResult += hex(int(sChar, 16) ^ int(keyChar, 16))[2:]
     return hexResult
