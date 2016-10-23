@@ -9,7 +9,7 @@ def char(s, key):
     xorResult = int(s, 16) ^ int(key, 16)
     hexResult = hex(xorResult)[2:]
     # print (hexResult)
-    return bytearray.fromhex(hexResult).decode('UTF-8')
+    return bytearray.fromhex(hexResult).decode('UTF-8', 'ignore')
 def repeatingKey(s, key):
     hexResult = ''
     for i in range(0, int((len(s))/2)):
