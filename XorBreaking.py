@@ -27,24 +27,28 @@ def returnEditDistance(s, keysize):
     shortenedS2 = s[keysize:2*keysize]
     shortenedS3 = s[keysize*2:keysize*3]
     shortenedS4 = s[keysize*3:keysize*4]
-    print (shortenedS4)
+    # print(shortenedS1)
+    # print (shortenedS4)
     temp = editDistanceCalc(shortenedS1, shortenedS2)/keysize
-    # temp2 = editDistanceCalc(shortenedS1, shortenedS4)/keysize
-    return temp / 2
+    temp2 = editDistanceCalc(shortenedS1, shortenedS4)/keysize
+    return temp + temp2 / 2
 def base64toHex(s):
     rawBytes = base64.b64decode(s)
     return binascii.hexlify(rawBytes)
 def breakRepeatingXor(s):
     file = open(s, 'r')
-    # print(file.readline())
-    s = base64toHex(file.readline())
+    s = base64toHex(file.read())
     s = str(s)[2:len(s)+2]
     print(s)
     highScore = 666
+    tempHighScore = 666
     for k in range(2, 41):
-        highScore = min(highScore, returnEditDistance(s, k))
+        tempHighScore = min(highScore, returnEditDistance(s, k))
+        if(highScore != tempHighScore):
+            optimalKeyLength = k
+            highScore = tempHighScore
 
-    return highScore
+    return optimalKeyLength
 
 # (breakRepeatingXor("xorCrack.txt"))
 # s = "HUIfTQsPAh9PE048GmllH0kcDk4TAQsHThsBFkU2AB4BSWQgVB0dQzNTTmVS"
