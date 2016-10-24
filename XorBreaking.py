@@ -1,3 +1,4 @@
+import English
 import binascii
 import base64
 
@@ -27,10 +28,8 @@ def returnEditDistance(s, keysize):
     shortenedS2 = s[keysize:2*keysize]
     shortenedS3 = s[keysize*2:keysize*3]
     shortenedS4 = s[keysize*3:keysize*4]
-    # print(shortenedS1)
-    # print (shortenedS4)
     temp = editDistanceCalc(shortenedS1, shortenedS2)/keysize
-    temp2 = editDistanceCalc(shortenedS1, shortenedS4)/keysize
+    temp2 = editDistanceCalc(shortenedS3, shortenedS4)/keysize
     return temp + temp2 / 2
 def base64toHex(s):
     rawBytes = base64.b64decode(s)
@@ -50,6 +49,5 @@ def breakRepeatingXor(s):
 
     return optimalKeyLength
 
-# (breakRepeatingXor("xorCrack.txt"))
-# s = "HUIfTQsPAh9PE048GmllH0kcDk4TAQsHThsBFkU2AB4BSWQgVB0dQzNTTmVS"
-print(breakRepeatingXor("xorCrack.txt"))
+keyLength = (breakRepeatingXor("xorCrack.txt"))
+
