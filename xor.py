@@ -8,7 +8,7 @@ def char(s, key):
     key = key * int(len(s)/2)
     xorResult = int(s, 16) ^ int(key, 16)
     hexResult = hex(xorResult)[2:]
-    print (hexResult)
+    # print (hexResult)
     try:
         return bytearray.fromhex(hexResult).decode('UTF-8', 'ignore')
     except ValueError:
