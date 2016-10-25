@@ -5,12 +5,15 @@ import xor
 import singleCharXor
 # works
 def editDistanceCalc(s1, s2):
+    s1Converted= ''
+    s2Converted= ''
+    for i in range(0, len(s1)//2):
+        s1Converted += chr(int((s1[2*i] + s1[2*i+1]), 16))
+    for k in range(0, len(s2)//2):
+        s2Converted += chr(int((s2[2*k] + s2[2*k+1]), 16))
 
-    # s1 = bytearray.fromhex(s1[2:]).decode()
-    # s2 = bytearray.fromhex(s2).decode()
-
-    s1Bit = returnBits(s1)
-    s2Bit = returnBits(s2)
+    s1Bit = returnBits(s1Converted)
+    s2Bit = returnBits(s2Converted)
     convertedStringOne = str(s1Bit)
     convertedStringTwo = str(s2Bit)
     differences = 0
@@ -52,9 +55,10 @@ def findKeyLength(s):
     for k in range(2, 22):
         tempLowScore = returnEditDistance(s, 2*k)
         if(highScore > tempLowScore):
-            optimalKeyLength = 2*k
+            optimalKeyLength = k
             highScore = tempLowScore
-    print(optimalKeyLength)
+        print(optimalKeyLength)
+        print(highScore)
     return optimalKeyLength
 def createNewSringFromKey(fileName, keyLength):
     file = open(fileName, "r")
@@ -76,17 +80,15 @@ def createNewSringFromKey(fileName, keyLength):
 file = open("xorCrack.txt", 'r')
 s = base64toHex(file.read())
 s = str(s)[2:len(s)+2]
-# print(s)
 keyLength = findKeyLength(s)
 strings = createNewSringFromKey("xorCrack.txt", keyLength)
 key = ''
-print(s)
-print(strings)
+# print(strings)
+print(keyLength)
 for i in range(0, keyLength):
-    # print(i)
     # print(strings[i])
     key += singleCharXor.crack(strings[i])
-    print(key)
 print(key)
 hexResult = xor.repeatingKey(s, key)
-print(bytearray.fromhex(hexResult).decode())
+
+# print(editDistanceCalc("776f6b6b6120776f6b6b61212121","7468697320697320612074657374"))
