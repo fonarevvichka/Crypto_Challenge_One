@@ -1,6 +1,7 @@
-import English
 import binascii
 import base64
+
+import xor
 import singleCharXor
 
 def editDistanceCalc(s1, s2):
@@ -33,13 +34,9 @@ def returnEditDistance(s, keysize):
 def base64toHex(s):
     rawBytes = base64.b64decode(s)
     return binascii.hexlify(rawBytes)
-def breakRepeatingXor(fileName):
-    file = open(fileName, 'r')
-    s = base64toHex(file.read())
-    s = str(s)[2:len(s)+2]
-    # print(s)
-    highScore = 666
-    tempHighScore = 666
+def breakRepeatingXor(s):
+    highScore = 666666
+    tempHighScore = 666666
     for k in range(2, 41):
         tempHighScore = min(highScore, returnEditDistance(s, k))
         if(highScore != tempHighScore):
@@ -52,21 +49,24 @@ def createNewSringFromKey(fileName, keyLength):
     newStrings = list()
     originalLine = file.read()
     originalLine = str(base64toHex(originalLine))[2:len(originalLine)+2]
-    originalLine = originalLine[:150]
     print(originalLine)
+    originalLine = originalLine #error out of range
     # print(originalLine)
-    for k in range(1, keyLength+1):
+    for k in range(0, keyLength):
         for j in range(0, int(len(originalLine)/keyLength)-1):
-            print(j)
-            # print(j*(keyLength+k))
-            temp += (originalLine[j*(keyLength+k)])
+            temp += originalLine[(j*(keyLength)) + k]
         newStrings.append(temp)
+        temp = ''
     return newStrings
-
-keyLength = (breakRepeatingXor("xorCrack.txt"))
+file = open("xorCrack.txt", 'r')
+s = base64toHex(file.read())
+s = str(s)[2:len(s)+2]
+print(s)
+keyLength = (breakRepeatingXor(s))
 strings = createNewSringFromKey("xorCrack.txt", keyLength)
-# print(strings)
 key = ''
-# for i in range(0, keyLength-1):
-#     key += singleCharXor.crack(strings.pop(i))
-# print (key)
+for i in range(0, keyLength):
+    key += singleCharXor.crack(strings[i])
+print(key)
+hexResult = xor.repeatingKey(s, key)
+print(bytearray.fromhex(hexResult).decode())

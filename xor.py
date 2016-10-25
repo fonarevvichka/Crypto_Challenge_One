@@ -8,10 +8,20 @@ def char(s, key):
     key = key * int(len(s)/2)
     xorResult = int(s, 16) ^ int(key, 16)
     hexResult = hex(xorResult)[2:]
-    # print (hexResult)
-    return bytearray.fromhex(hexResult).decode('UTF-8', 'ignore')
+    print (hexResult)
+    try:
+        return bytearray.fromhex(hexResult).decode('UTF-8', 'ignore')
+    except ValueError:
+        return "zzzzz"
+def convertStrToHex(s):
+    convertedString = ''
+    for i in range(0, len(s)):
+        convertedString += hex(ord(s[i]))[2:]
+    return convertedString
+
 def repeatingKey(s, key):
     hexResult = ''
+    key = convertStrToHex(key)
     for i in range(0, int((len(s))/2)):
         sChar = s[2*i] + s[2*i+1]
         keyChar = key[2*(i % 3)] + key[(2*(i%3)) + 1]
