@@ -21,10 +21,10 @@ def convertStrToHex(s):
 
 def repeatingKey(s, key):
     hexResult = ''
-    key = convertStrToHex(key)
+    # print(key)
     for i in range(0, int((len(s))/2)):
-        sChar = s[2*i] + s[2*i+1]
-        keyChar = key[2*(i % 3)] + key[(2*(i%3)) + 1]
+        sChar = s[(2*i)] + s[(2*i)+1]
+        keyChar = key[(2*i) % len(key)] + key[(2*i)%len(key) + 1]
         if(len(hex(int(sChar, 16) ^ int(keyChar, 16))[2:]) < 2):
             hexResult += "0"
         hexResult += hex(int(sChar, 16) ^ int(keyChar, 16))[2:]
