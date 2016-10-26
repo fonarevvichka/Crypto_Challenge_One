@@ -5,7 +5,10 @@ def crack(s):
     highScore = 0
     key = ''
     for letter in Alphabet:
-        if (English.matchScore(xor.char(s, letter))) > highScore:
+        matchScore = English.matchScore(xor.char(s, letter))
+        if matchScore > highScore:
+            # print (letter)
             key = letter
-            highScore = English.matchScore(xor.char(s, letter))
+            highScore = matchScore
+    # print(key)
     return key

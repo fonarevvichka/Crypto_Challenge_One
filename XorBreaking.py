@@ -1,32 +1,29 @@
 import binascii
 import base64
 
+import conversions
 import xor
 import singleCharXor
 # works
 from repeatingKeyXor import repeatingKeyXor
 
-
 def editDistanceCalc(s1, s2):
-    s1Converted= ''
-    s2Converted= ''
-    for i in range(0, len(s1)//2):
-        s1Converted += chr(int((s1[2*i] + s1[2*i+1]), 16))
-    for k in range(0, len(s2)//2):
-        s2Converted += chr(int((s2[2*k] + s2[2*k+1]), 16))
+    s1Converted = xor.hexToString(s1)
+    s2Converted = xor.hexToString(s2)
 
     s1Bit = returnBits(s1Converted)
     s2Bit = returnBits(s2Converted)
+
     convertedStringOne = str(s1Bit)
     convertedStringTwo = str(s2Bit)
-    differences = 0
+
     lengthOne = len(convertedStringOne)
     lengthTwo = len(convertedStringTwo)
 
+    differences = 0
     for k in range(0, max(lengthOne, lengthTwo)):
         if(convertedStringOne[k % lengthOne] != convertedStringTwo[k % lengthTwo]):
             differences += 1
-
     return differences
 # works
 def returnBits(s):
@@ -46,7 +43,7 @@ def returnEditDistance(s, keysize):
     temp1 = editDistanceCalc(shortenedS1, shortenedS2)/keysize
     temp2 = editDistanceCalc(shortenedS3, shortenedS4)/keysize
     temp3 = editDistanceCalc(shortenedS5, shortenedS6)/keysize
-    print(temp1, " ", temp2, " ", temp3)
+    # print(temp1, " ", temp2, " ", temp3)
     return (temp1 + temp2 + temp3)/3
 # works
 def base64toHex(s):
@@ -60,39 +57,40 @@ def findKeyLength(s):
             optimalKeyLength = k
             highScore = tempLowScore
             # print(optimalKeyLength)
-        print(highScore)
+        # print(highScore)
     return optimalKeyLength
-def createNewSringFromKey(fileName, keyLength):
-    file = open(fileName, "r")
-    temp = ''
+def createNewSringFromKey(s, keyLength):
     newStrings = list()
-    originalLine = file.read()
-    originalLine = str(base64toHex(originalLine))[2:len(originalLine)+2]
-    # print(originalLine)
-    originalLine = originalLine #error out of range
-    # print(originalLine)
+    temp = ''
+    print(s)
     for k in range(0, keyLength):
-        for j in range(0, int(len(originalLine)/keyLength)-1):
-            temp += originalLine[j*(keyLength) + k]
+        for j in range(0, int(len(s)/keyLength)-1):
+            temp += s[j*(keyLength) + k]
         newStrings.append(temp)
         temp = ''
     return newStrings
+def caller():
+    # file stuff
+    file = open("xorCrack.txt", 'r')
+    s = file.read()
+    s = base64toHex(s)
+    s = str(s)[2:len(s)+2]
+    s = s.upper()
+    # file stuff
 
+    # get key length
+    keyLength = findKeyLength(s) + 1
+    # get key length
 
-file = open("xorCrack.txt", 'r')
-s = base64toHex(file.read())
-s = str(s)[2:len(s)+2]
-print(s)
-keyLength = findKeyLength(s)
-strings = createNewSringFromKey("xorCrack.txt", keyLength)
-key = ''
-# print(strings)
-print(keyLength)
-for i in range(0, keyLength):
-    # print(strings[i])
-    key += singleCharXor.crack(strings[i])
-print(key)
-# hexResult = xor.repeatingKey(s, key)
-print(repeatingKeyXor(s, key))
-
-# print(editDistanceCalc("776f6b6b6120776f6b6b61212121","7468697320697320612074657374"))
+    strings = createNewSringFromKey(s, keyLength)
+    # print(strings)
+    key = ''
+    # print(keyLength)
+    for i in range(0, keyLength):
+        key += singleCharXor.crack(strings[i])
+        # print(strings[i])
+    print(key)
+    # print(base64toHex(s).upper())
+    # (xor.hexToString(xor.repeatingKey(s, xor.stringToHex(key))))
+caller()
+# print((conversions.hexToBase64(xor.repeatingKey(xor.stringToHex("I went to the mall on a tuesday afternoon. It was a ball of fun, we partied all day and all night it was an enormous ball of fun"), "414243"))))
