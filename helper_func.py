@@ -23,9 +23,7 @@ def fixed_xor(hex_input):
     
     return resulting_bytes.hex()
 
-# def single_byte_xor(hex_input):
-#     print("blah")
+def single_byte_xor(input_bytes, single_byte):
+    result_bytes = bytes(single_byte ^ x for x in zip(input_bytes))
 
-if __name__ == "__main__":
-    xor_result = fixed_xor('1c0111001f010100061a024b53535009181c')
-    print(xor_result)
+    return result_bytes.hex()
