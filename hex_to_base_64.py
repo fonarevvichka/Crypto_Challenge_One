@@ -5,7 +5,7 @@ import binascii
 def hex_to_64(hex_input):
     message = binascii.unhexlify(hex_input)
     base64_bytes = base64.b64encode(message)
-    base64_message = base64_bytes.decode('ascii')\
+    base64_message = base64_bytes.decode('ascii')
 
     return base64_message
 
