@@ -17,13 +17,18 @@ def base64_to_hex(base64_bytes):
 def fixed_xor(hex_input):
     fixed_string = '686974207468652062756c6c277320657965'
 
-    fixed_bytes = bytes.fromhex(fixed_string)
-    input_bytes = bytes.fromhex(hex_input)
+    # fixed_bytes = bytes.fromhex(fixed_string)
+    # input_bytes = bytes.fromhex(hex_input)
+
+    fixed_bytes = hex_to_64(fixed_string)
+    input_bytes = hex_to_64(hex_input)
     resulting_bytes = bytes(a ^ b for a, b in zip(fixed_bytes, input_bytes))
-    
+
+    resulting_bytes = base64_to_hex(resulting_bytes)
     return resulting_bytes.hex()
 
 def single_byte_xor(input_bytes, single_byte):
-    result_bytes = bytes(single_byte ^ x for x in zip(input_bytes))
-
+    result_bytes = ''
+    for x in input_bytes:
+        result_bytes += bytes(single_byte[0] ^ x)
     return result_bytes.hex()
