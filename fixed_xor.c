@@ -9,10 +9,10 @@
 
 int main() 
 {       
-        char* input = "1c0111001f010100061a024b53535009181c";
+        char* input = "6943";
         int length = strlen(input);
 
-        char* comparable = "686974207468652062756c6c277320657965";
+        char* comparable = "";
 
         uint8_t* input_in_binary = unpack_hex_to_binary(input, length);
         uint8_t* comparable_in_binary = unpack_hex_to_binary(comparable, length);

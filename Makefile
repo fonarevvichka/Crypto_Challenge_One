@@ -41,7 +41,7 @@ INCLUDES = $(shell echo *.h)
 
 ############### Rules ###############
 
-all: hex_to_64 fixed_xor single_char_xor
+all: repeating_key_crack
 
 ## Compile step (.c files -> .o files)
 
@@ -60,6 +60,12 @@ fixed_xor: fixed_xor.o bitpack.o cryptography.o
 single_char_xor: single_char_xor.o bitpack.o cryptography.o
 	$(CC) $^ -o $@ $(LDLIBS)
 
+xor_message: xor_message.o bitpack.o cryptography.o
+	$(CC) $^ -o $@ $(LDLIBS)
+
+repeating_key_crack: repeating_key_crack.o bitpack.o cryptography.o
+	$(CC) $^ -o $@ $(LDLIBS)
+
 clean:
-	rm -f hex_to_64 fixed_xor single_char_xor *.o
+	rm -f hex_to_64 fixed_xor single_char_xor *.o xor_message repeating_key_crack
 
